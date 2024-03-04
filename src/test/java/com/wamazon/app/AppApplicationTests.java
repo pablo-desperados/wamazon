@@ -1,10 +1,10 @@
-package com.shopping.oop.wamazon;
+package com.wamazon.app;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class WamazonApplicationTests {
+class AppApplicationTests {
 
 	@Test
 	void contextLoads() {
