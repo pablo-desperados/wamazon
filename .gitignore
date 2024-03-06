@@ -14,6 +14,7 @@
 .factorypath
 .gradle
 .metadata
+.settings
 .project
 .recommenders
 .settings
@@ -36,6 +37,7 @@ manifest.yml
 out
 overridedb.*
 target
+target/
 .flattened-pom.xml
 secrets.yml
 .gradletasknamecache

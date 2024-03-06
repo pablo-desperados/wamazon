@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Wamazon</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Wamazon</a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <!-- This will be populated with the current user's name -->
+            <li class="nav-item">
+                <div th:text="${'Hello, ' + currUsername + '!'}"></div>
+            </li>
+        </ul>
+        <!-- Shopping Cart Button -->
+        <button class="btn btn-outline-primary my-2 my-sm-0" type="button" id="cartBtn">
+            Shopping Cart <span class="badge badge-pill badge-success" id="cartCounter">0</span>
+        </button>
+    </div>
+</nav>
+
+</body>
+</html>
