@@ -14,6 +14,14 @@ import jakarta.servlet.http.HttpSession;
 public class UserController {
 	private final UserRepository userRepository;
 
+	public UserModel findByUsernameAndPassword(String username, String password) {
+		UserModel user = userRepository.findByUsernameAndPassword(username, password);
+		if (user == null) {
+			throw new RuntimeException("Invalid username or password");
+		}
+		return user;
+	}
+
 	@Autowired
 	public UserController(UserRepository userRepository) {
 		this.userRepository = userRepository;
@@ -48,8 +56,19 @@ public class UserController {
 	@PostMapping("/login-post")
 	public String LoginUser(@RequestParam(name = "username", defaultValue = "defaultUser") String username,
 			@RequestParam(name = "password", defaultValue = "defaultPassword") String password,
-			HttpServletRequest request) {
-			
+			HttpServletRequest request,
+			Model model) {
+
+		try {
+			UserModel user = findByUsernameAndPassword(username, password);
+			HttpSession session = request.getSession();
+			session.setAttribute("userid", user.getId());
+			return "redirect:/portal"; // Replace with your success template
+		} catch (RuntimeException e) {
+			model.addAttribute("error", "username/password are incorrect. Please try again!");
+			return "login"; // Replace with your login template
+		}
+
 	}
 
 	@PostMapping("/register-post")
