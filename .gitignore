@@ -11,6 +11,7 @@
 .DS_Store
 .attach_pid*
 .classpath
+.metals
 .factorypath
 .gradle
 .metadata

@@ -17,10 +17,13 @@
                 <div th:text="${'Hello, ' + currUsername + '!'}"></div>
             </li>
         </ul>
-        <!-- Shopping Cart Button -->
-        <button class="btn btn-outline-primary my-2 my-sm-0" type="button" id="cartBtn">
-            Shopping Cart <span class="badge badge-pill badge-success" id="cartCounter">0</span>
-        </button>
+        <!-- Links -->
+        <div class="my-2 my-lg-0">
+            <a class="btn btn-outline-primary mr-2" href="/item-form" role="button">Add Item</a>
+            <button class="btn btn-outline-primary" type="button" id="cartBtn">
+                Shopping Cart <span class="badge badge-pill badge-success" id="cartCounter">0</span>
+            </button>
+        </div>
     </div>
 </nav>
 
