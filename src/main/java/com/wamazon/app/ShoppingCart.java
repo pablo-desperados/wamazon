@@ -1,15 +1,18 @@
 package com.wamazon.app;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+import com.wamazon.app.Model.BaseProductModel;
 
 public class ShoppingCart {
     private static ShoppingCart instance;
-    private List<String> items;
+    private Map<UUID,BaseProductModel> items;
     private int itemCount;
 
     private ShoppingCart() {
-        this.items = new ArrayList<>();
+        this.items = new HashMap<UUID,BaseProductModel>();
         this.itemCount = 0;
     }
 
@@ -20,17 +23,21 @@ public class ShoppingCart {
         return instance;
     }
 
-    public void addItem(String item) {
-        items.add(item);
-        itemCount++;
+    public void addItem(BaseProductModel addedProductModel) {
+    	if(addedProductModel != null) {
+    		UUID uuid = UUID.randomUUID();
+    		items.put(uuid, addedProductModel);
+    		itemCount++;
+    	}
+ 
     }
 
-    public void removeItem(String item) {
-        items.remove(item);
+    public void removeItem(UUID id) {
+        items.remove(id);
         itemCount--;
     }
 
-    public List<String> getItems() {
+    public Map<UUID, BaseProductModel> getItems() {
         return items;
     }
 

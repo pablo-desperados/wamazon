@@ -20,9 +20,9 @@
         <!-- Links -->
         <div class="my-2 my-lg-0">
             <a class="btn btn-outline-primary mr-2" href="/item-form" role="button">Add Item</a>
-            <button class="btn btn-outline-primary" type="button" id="cartBtn">
-                Shopping Cart <span class="badge badge-pill badge-success" id="cartCounter">0</span>
-            </button>
+            <a class="btn btn-outline-primary" role="button" id="cartBtn" href="/cart" >
+                Shopping Cart <span class="badge badge-pill badge-success" id="cartCounter" th:text="${cartCounter}" ></span>
+            </a>
         </div>
     </div>
 </nav>
@@ -51,7 +51,28 @@
         </div>
     </div>
 </div>
+<script th:inline="javascript">
+    function addToCart(productId) {
+        // AJAX POST request to add the product to the cart
+        var url = '/add-to-cart/' + productId;
 
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                productId: productId,
+            }),
+        }).then(function(response) {
+        	debugger;
+ 			window.location.reload();
+            console.log("Product with ID " + productId + " added to cart");
+        }).catch(function(error) {
+            console.error('Error:', error);
+        });
+    }
+</script>
 
 </body>
 </html>

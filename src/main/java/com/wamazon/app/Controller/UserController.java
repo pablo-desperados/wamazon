@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.wamazon.app.Model.BaseProductRepository;
 import com.wamazon.app.Model.UserModel;
+import com.wamazon.app.ShoppingCart;
 import com.wamazon.app.Model.BaseProductModel;
 import com.wamazon.app.Model.UserRepository;
 
@@ -22,6 +23,7 @@ import jakarta.servlet.http.HttpSession;
 public class UserController {
 	private final UserRepository userRepository;
 	private final BaseProductRepository baseProductRepository;
+	private final ShoppingCart shoppingCart;
 
 	public UserModel findByUsernameAndPassword(String username, String password) {
 		UserModel user = userRepository.findByUsernameAndPassword(username, password);
@@ -35,6 +37,7 @@ public class UserController {
 	public UserController(UserRepository userRepository, BaseProductRepository baseProductRepository) {
 		this.userRepository = userRepository;
 		this.baseProductRepository = baseProductRepository;
+		this.shoppingCart = ShoppingCart.getInstance();
 	}
 
 	@GetMapping("/")
@@ -50,6 +53,7 @@ public class UserController {
 		UserModel user = userRepository.getReferenceById((Long) session.getAttribute("userid"));
 		model.addAttribute("currUsername", user.getUsername());
 		model.addAttribute("products", products);
+		model.addAttribute("cartCounter",this.shoppingCart.getItemCount());
 		return "portal";
 	}
 
