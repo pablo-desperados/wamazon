@@ -1,10 +1,15 @@
 package com.wamazon.app.Model;
 
+import jakarta.persistence.Entity;
+
+@Entity
 public class GamingPCProductModel  extends BaseProductModel {
 
 	public GamingPCProductModel(String name, double price) {
 		super(name, price);
 	}
+	
+	public GamingPCProductModel() {};
 
 	@Override
 	public String getDescription() {

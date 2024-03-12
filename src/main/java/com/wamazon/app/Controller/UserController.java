@@ -1,5 +1,7 @@
 package com.wamazon.app.Controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,7 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.wamazon.app.Model.BaseProductRepository;
 import com.wamazon.app.Model.UserModel;
+import com.wamazon.app.Model.BaseProductModel;
 import com.wamazon.app.Model.UserRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,6 +21,7 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class UserController {
 	private final UserRepository userRepository;
+	private final BaseProductRepository baseProductRepository;
 
 	public UserModel findByUsernameAndPassword(String username, String password) {
 		UserModel user = userRepository.findByUsernameAndPassword(username, password);
@@ -27,8 +32,9 @@ public class UserController {
 	}
 
 	@Autowired
-	public UserController(UserRepository userRepository) {
+	public UserController(UserRepository userRepository, BaseProductRepository baseProductRepository) {
 		this.userRepository = userRepository;
+		this.baseProductRepository = baseProductRepository;
 	}
 
 	@GetMapping("/")
@@ -39,9 +45,11 @@ public class UserController {
 
 	@GetMapping("/portal")
 	public String PortalRoute(HttpSession session, Model model) {
-
+		
+        List<BaseProductModel> products = baseProductRepository.findAll();
 		UserModel user = userRepository.getReferenceById((Long) session.getAttribute("userid"));
 		model.addAttribute("currUsername", user.getUsername());
+		model.addAttribute("products", products);
 		return "portal";
 	}
 

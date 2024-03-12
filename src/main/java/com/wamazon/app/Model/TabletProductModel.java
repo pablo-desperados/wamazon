@@ -1,11 +1,15 @@
 package com.wamazon.app.Model;
 
+import jakarta.persistence.Entity;
+
+@Entity
 public class TabletProductModel extends BaseProductModel {
 
 	public TabletProductModel(String name, double price) {
 		super(name, price);
 	}
-
+	
+	public TabletProductModel() {};
 	@Override
 	public String getDescription() {
 		// TODO Auto-generated method stub

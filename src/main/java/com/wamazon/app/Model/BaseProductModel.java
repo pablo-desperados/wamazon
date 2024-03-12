@@ -3,13 +3,21 @@ import jakarta.persistence.*;
 
 @Inheritance
 @Entity
-abstract public class BaseProductModel implements BaseProduct {
+public class BaseProductModel implements BaseProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     private String name;
     private double price;
+    private String description;
+    public BaseProductModel(){};
+    public BaseProductModel(String name, double price, String description) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+    }
+    
     public BaseProductModel(String name, double price) {
         this.name = name;
         this.price = price;
@@ -27,7 +35,9 @@ abstract public class BaseProductModel implements BaseProduct {
         return this.price;
     }
     
-    public abstract String getDescription();
+    public String getDescription() {
+		return this.description;
+	}
     	
 }
     

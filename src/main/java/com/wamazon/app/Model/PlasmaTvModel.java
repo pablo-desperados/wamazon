@@ -1,11 +1,15 @@
 package com.wamazon.app.Model;
 
+import jakarta.persistence.Entity;
+
+@Entity
 public class PlasmaTvModel extends BaseProductModel {
 
 	public PlasmaTvModel(String name, double price) {
 		super(name, price);
 	}
-
+	
+	public PlasmaTvModel() {};
 	@Override
 	public String getDescription() {
 		return """

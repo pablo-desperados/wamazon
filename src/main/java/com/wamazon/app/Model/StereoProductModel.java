@@ -8,6 +8,8 @@ public class StereoProductModel extends BaseProductModel {
 	public StereoProductModel (String name, double price) {
 		super(name, price);
 	}
+	
+	public StereoProductModel() {};
 
 	@Override
 	public String getDescription() {
