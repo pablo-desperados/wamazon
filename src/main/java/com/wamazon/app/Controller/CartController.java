@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.wamazon.app.ShoppingCart;
+import com.wamazon.app.ShoppingCartBuilder;
 import com.wamazon.app.Model.*;
 
 import jakarta.servlet.http.HttpSession;
@@ -17,17 +18,17 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class CartController {
 	private final UserRepository userRepository;
-	private final ShoppingCart shoppingCart;
+	private final ShoppingCartBuilder shoppingCart;
 	
 	@Autowired
 	public CartController(UserRepository userRepository) {
 		this.userRepository = userRepository;
-		this.shoppingCart = ShoppingCart.getInstance();
+		this.shoppingCart = new ShoppingCartBuilder();
 	}
 	
 	@GetMapping("/cart")
 	public String CartRoute(Model model, HttpSession session) {
-		Map<UUID, BaseProductModel> cartItems = this.shoppingCart.getItems();
+		Map<UUID, BaseProductModel> cartItems = this.shoppingCart.build().getItems();
 		UserModel user = userRepository.getReferenceById((Long) session.getAttribute("userid"));
 		double totalSum = calculateTotalSum(cartItems);
 		model.addAttribute("cartItems",cartItems);

@@ -14,61 +14,61 @@ import com.wamazon.app.Model.BaseProductFactory;
 import com.wamazon.app.Model.BaseProductModel;
 import com.wamazon.app.Model.BaseProductRepository;
 import com.wamazon.app.DataSeeder;
-import com.wamazon.app.ShoppingCart;
+import com.wamazon.app.ShoppingCartBuilder;
 
 import org.springframework.ui.Model;
 
+
 @Controller
 public class ItemController {
-	private final BaseProductRepository productRepo;
-	 private final DataSeeder dataSeeder;
-	 private final ShoppingCart shoppingCart;
-	
-	@Autowired
-	public ItemController(BaseProductRepository productRepo, DataSeeder dataSeeder) {
-		this.productRepo = productRepo;
-		this.dataSeeder = dataSeeder;
-		this.shoppingCart = ShoppingCart.getInstance();
-	}
-	
-	@PostMapping("/seeder")
-	public String seedData() {
-	        dataSeeder.seedData();
-	        return "Data Seeding Triggered!";
-	    }
+    private final BaseProductRepository productRepo;
+    private final DataSeeder dataSeeder;
+    private final ShoppingCartBuilder cartBuilder;
 
-	@GetMapping("/item-form")
-	public String ItemFormRoute() {
-		return "item-form";
-	}
-	
-	@Transactional
-	@PostMapping("/add-to-cart/{productId}")
-	public String addToCart(@PathVariable(value="productId") Long productId) {
-        // Assuming productId is of type Long
-		Optional<BaseProductModel> addedProductModel = this.productRepo.findById(productId);
-        this.shoppingCart.addItem(addedProductModel.get());
-        return "portal";
+    @Autowired
+    public ItemController(BaseProductRepository productRepo, DataSeeder dataSeeder, ShoppingCartBuilder cartBuilder) {
+        this.productRepo = productRepo;
+        this.dataSeeder = dataSeeder;
+        this.cartBuilder = cartBuilder;
     }
-	
-	@PostMapping("/add-item")
-	public String AddItemFormRoute(@RequestParam(name = "productName", defaultValue = "") String productname,
-			@RequestParam(name = "price") double price,
-			@RequestParam(name="description") String description, Model model) {
-		if(productname.equals("")) {
-			model.addAttribute("error", "You can't leave the product name empty!");
-			return "/item-form";
-		}
-		else if(price <= 0.0) {
-			model.addAttribute("error", "The price needs to be a positive integer");
-			return "/item-form";
-		}else {
-			BaseProductFactory factory = new BaseProductFactory();
-			BaseProductModel newProductModel =factory.createProduct("base", productname, price, description);
-			this.productRepo.save(newProductModel);
-			return "redirect:/portal";
-		}
-		
-	}
 
+    @PostMapping("/seeder")
+    public void seedData() {
+        dataSeeder.seedData();
+        System.out.println("Data Seeding Triggered!");
+    }
+
+    @GetMapping("/item-form")
+    public String ItemFormRoute() {
+        return "item-form";
+    }
+
+    @Transactional
+    @PostMapping("/add-to-cart/{productId}")
+    public String addToCart(@PathVariable(value = "productId") Long productId) {
+        Optional<BaseProductModel> addedProductModel = this.productRepo.findById(productId);
+        if (addedProductModel.isPresent()) {
+            cartBuilder.addItem(addedProductModel.get());
+        }
+        return "redirect:/portal";
+    }
+
+    @PostMapping("/add-item")
+    public String AddItemFormRoute(@RequestParam(name = "productName", defaultValue = "") String productname,
+            @RequestParam(name = "price") double price,
+            @RequestParam(name = "description") String description, Model model) {
+        if (productname.equals("")) {
+            model.addAttribute("error", "You can't leave the product name empty!");
+            return "/item-form";
+        } else if (price <= 0.0) {
+            model.addAttribute("error", "The price needs to be a positive integer");
+            return "/item-form";
+        } else {
+            BaseProductFactory factory = new BaseProductFactory();
+            BaseProductModel newProductModel = factory.createProduct("base", productname, price, description);
+            productRepo.save(newProductModel);
+            cartBuilder.addItem(newProductModel); // Adding the new product to cart
+            return "redirect:/portal";
+        }
+    }
 }
