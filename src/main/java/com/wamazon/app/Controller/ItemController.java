@@ -2,6 +2,7 @@ package com.wamazon.app.Controller;
 
 import java.util.Optional;
 
+import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +36,6 @@ public class ItemController {
     @PostMapping("/seeder")
     public void seedData() {
         dataSeeder.seedData();
-        System.out.println("Data Seeding Triggered!");
     }
 
     @GetMapping("/item-form")
@@ -56,16 +56,21 @@ public class ItemController {
     @PostMapping("/add-item")
     public String AddItemFormRoute(@RequestParam(name = "productName", defaultValue = "") String productname,
             @RequestParam(name = "price") double price,
-            @RequestParam(name = "description") String description, Model model) {
+            @RequestParam(name = "description") String description, Model model,
+            @RequestParam(name="image", defaultValue = "") String image) {
+    	UrlValidator validator = new UrlValidator();
         if (productname.equals("")) {
             model.addAttribute("error", "You can't leave the product name empty!");
             return "/item-form";
         } else if (price <= 0.0) {
             model.addAttribute("error", "The price needs to be a positive integer");
             return "/item-form";
-        } else {
+        } else if(!validator.isValid(image)){
+        	model.addAttribute("error", "The image needs to be a valid url");
+        	return "/item-form";
+        }else {
             BaseProductFactory factory = new BaseProductFactory();
-            BaseProductModel newProductModel = factory.createProduct("base", productname, price, description);
+            BaseProductModel newProductModel = factory.createProduct("base", productname, price, description,image);
             productRepo.save(newProductModel);
             cartBuilder.addItem(newProductModel); // Adding the new product to cart
             return "redirect:/portal";

@@ -38,8 +38,10 @@
                 <div class="card-body">
                     <!-- Product Name -->
                     <h4 class="card-title" th:text="${product.name}"></h4>
+                    <img th:src="${product.image}" class="card-img-top" alt="Product Image">
                     <!-- Product Price -->
                     <h5 th:text="'$' + ${product.price}"></h5>
+                    <p th:text="${product.description}"></p>
                 </div>
                 <!-- Add to Cart Button -->
                 <div class="card-footer">

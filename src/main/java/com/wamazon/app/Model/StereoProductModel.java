@@ -19,6 +19,11 @@ public class StereoProductModel extends BaseProductModel {
 				""";
 	}
 	
+	@Override
+	public String getImage() {
+		return "https://www.ldoceonline.com/media/english/illustration/stereo.jpg?version=1.2.66";
+	}
+	
 	
 }
 

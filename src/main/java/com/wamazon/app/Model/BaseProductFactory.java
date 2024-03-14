@@ -3,7 +3,7 @@ package com.wamazon.app.Model;
 
 public class BaseProductFactory {
 
-	public BaseProductModel createProduct(String type, String name, double price, String description) {
+	public BaseProductModel createProduct(String type, String name, double price, String description, String image) {
 		BaseProductModel newProduct;
 		
 
@@ -24,7 +24,7 @@ public class BaseProductFactory {
 			newProduct = new TabletProductModel("Wamazon Android table", 900);
 			return newProduct;
 		} else {
-			newProduct = new BaseProductModel(name, price, description);
+			newProduct = new BaseProductModel(name, price, description, image);
 			return newProduct;
 			
 		}

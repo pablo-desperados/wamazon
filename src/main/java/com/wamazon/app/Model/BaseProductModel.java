@@ -1,4 +1,6 @@
 package com.wamazon.app.Model;
+import java.net.URL;
+
 import jakarta.persistence.*;
 
 @Inheritance
@@ -11,11 +13,14 @@ public class BaseProductModel implements BaseProduct {
     private String name;
     private double price;
     private String description;
+    private String image;
+    
     public BaseProductModel(){};
-    public BaseProductModel(String name, double price, String description) {
+    public BaseProductModel(String name, double price, String description, String image) {
         this.name = name;
         this.price = price;
         this.description = description;
+        this.image = image;
     }
     
     public BaseProductModel(String name, double price) {
@@ -38,6 +43,14 @@ public class BaseProductModel implements BaseProduct {
     public String getDescription() {
 		return this.description;
 	}
+    
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
     	
 }
     

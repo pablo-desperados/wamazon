@@ -18,5 +18,10 @@ public class TabletProductModel extends BaseProductModel {
 				Whether you're browsing the web, watching your favorite shows, or getting work done on-the-go, our tablets offer the power and convenience you need to stay connected and productive.
 				""";
 	}
+	
+	@Override
+	public String getImage() {
+		return "https://consumer.huawei.com/content/dam/huawei-cbg-site/weu/common/mkt/plp/tablets-new/matepad-pro-13-2/kv.jpg";
+	}
 
 }

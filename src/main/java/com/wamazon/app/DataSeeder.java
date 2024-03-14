@@ -18,10 +18,10 @@ public class DataSeeder {
 
     public void seedData() {
     	BaseProductFactory factory = new BaseProductFactory();
-    	BaseProductModel stereo = factory.createProduct("stereo", null, 0, null);
-    	BaseProductModel tv = factory.createProduct("tv", null, 0, null);
-    	BaseProductModel tablet = factory.createProduct("tablet", null, 0, null);
-    	BaseProductModel pc = factory.createProduct("pc", null, 0, null);
+    	BaseProductModel stereo = factory.createProduct("stereo", null, 0, null, null);
+    	BaseProductModel tv = factory.createProduct("tv", null, 0, null,null);
+    	BaseProductModel tablet = factory.createProduct("tablet", null, 0, null,null);
+    	BaseProductModel pc = factory.createProduct("pc", null, 0, null,null);
         
     	baseProductRepository.save(stereo);
     	baseProductRepository.save(tv);

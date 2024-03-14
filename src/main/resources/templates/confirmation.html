@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Purchase Confirmation</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS for Countdown -->
+    <style>
+        .countdown {
+            font-size: 48px;
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4">Purchase Confirmation</h2>
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Thank you for your purchase!</h4>
+        <p>Your order has been successfully processed!</p>
+        <p>You will be redirected soon.</p>
+    </div>
+    <div class="countdown" id="countdown">5</div>
+</div>
+
+<!-- Countdown Script -->
+<script>
+    var countdownElement = document.getElementById('countdown');
+    var countdown = parseInt(countdownElement.innerHTML);
+
+    setInterval(function() {
+        countdown--;
+        countdownElement.innerHTML = countdown;
+        if (countdown <= 0) {
+            window.location.href = '/portal'; // Redirect after countdown
+        }
+    }, 1000);
+</script>
+</body>
+</html>

@@ -19,5 +19,10 @@ public class GamingPCProductModel  extends BaseProductModel {
 				From immersive graphics to lightning-fast processing power, our PCs are designed to handle the most demanding games with ease, giving you the competitive edge you need.
 				""";
 	}
+	
+	@Override
+	public String getImage() {
+		return "https://media.currys.biz/i/currysprod/10253051?$l-large$&fmt=auto";
+	}
 
 }
