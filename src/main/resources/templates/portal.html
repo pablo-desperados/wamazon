@@ -12,14 +12,15 @@
     <a class="navbar-brand" href="/portal">Wamazon</a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <!-- This will be populated with the current user's name -->
-            <li class="nav-item">
+        <li class="nav-item">
                 <div th:text="${'Hello, ' + currUsername + '!'}"></div>
             </li>
+
         </ul>
         <!-- Links -->
         <div class="my-2 my-lg-0">
             <a class="btn btn-outline-primary mr-2" href="/item-form" role="button">Add Item</a>
+            <a href="/notifications" class="btn btn-primary">View Notifications</a>
             <a class="btn btn-outline-primary" role="button" id="cartBtn" href="/cart" >
                 Shopping Cart <span class="badge badge-pill badge-success" id="cartCounter" th:text="${cartCounter}" ></span>
             </a>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Notification Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Notification Page</h2>
+    <div class="list-group">
+        <!-- Iterate over log entries and display each as a list item -->
+        <div th:each="logEntry : ${logEntries}" class="list-group-item">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1" th:text="${logEntry.timestamp}"></h5>
+                <small th:text="${logEntry.user.username}"></small>
+            </div>
+            <p class="mb-1" th:text="${logEntry.message}"></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -5,6 +5,7 @@ import com.wamazon.app.Model.BaseProductModel;
 import com.wamazon.app.Model.BaseProductRepository;
 import com.wamazon.app.Model.UserModel;
 import com.wamazon.app.Model.UserRepository;
+import com.wamazon.app.LogEntryService;
 import com.wamazon.app.ShoppingCart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,8 @@ public class UserController {
 
     private final UserRepository userRepository;
     private final BaseProductRepository baseProductRepository;
+	@Autowired
+	private LogEntryService logEntryService;
 
     @Autowired
     public UserController(UserRepository userRepository, BaseProductRepository baseProductRepository) {
@@ -58,7 +61,6 @@ public class UserController {
 
     @GetMapping("/register")
     public String RegistrationRoute() {
-        // Return register template
         return "register";
     }
 
@@ -78,6 +80,7 @@ public class UserController {
             UserModel user = findByUsernameAndPassword(username, password);
             HttpSession session = request.getSession();
             session.setAttribute("userid", user.getId());
+            this.logEntryService.logEvent(user.getUsername()+" has logged in", user);
             return "redirect:/portal"; // Replace with your success template
         } catch (RuntimeException e) {
             model.addAttribute("error", "username/password are incorrect. Please try again!");
@@ -95,7 +98,7 @@ public class UserController {
         userRepository.save(newUser);
         HttpSession session = request.getSession();
         session.setAttribute("userid", newUser.getId());
-
+        this.logEntryService.logEvent(newUser.getUsername()+" has registered", newUser);
         // Redirect to the main page after registration
         return "redirect:/portal";
     }
@@ -108,21 +111,4 @@ public class UserController {
         return user;
     }
 
-    @PostMapping("/add-to-cart")
-    public String addToCart(@RequestParam(name = "productId") Long productId) {
-        BaseProductModel product = baseProductRepository.findById(productId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid product ID"));
-
-        ShoppingCartBuilder shoppingCart =  new ShoppingCartBuilder();
-        shoppingCart.addItem(product);
-
-        return "redirect:/portal";
-    }
-
-    @PostMapping("/remove-from-cart")
-    public String removeFromCart(@RequestParam(name = "uuid") UUID uuid) {
-    	ShoppingCartBuilder shoppingCart =  new ShoppingCartBuilder();
-    	shoppingCart.removeItem(uuid);
-        return "redirect:/portal";
-    }
 }

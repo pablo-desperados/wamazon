@@ -14,7 +14,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.wamazon.app.Model.BaseProductFactory;
 import com.wamazon.app.Model.BaseProductModel;
 import com.wamazon.app.Model.BaseProductRepository;
+import com.wamazon.app.Model.UserModel;
+import com.wamazon.app.Model.UserRepository;
+
+import jakarta.servlet.http.HttpSession;
+
 import com.wamazon.app.DataSeeder;
+import com.wamazon.app.LogEntryService;
 import com.wamazon.app.ShoppingCartBuilder;
 
 import org.springframework.ui.Model;
@@ -25,12 +31,16 @@ public class ItemController {
     private final BaseProductRepository productRepo;
     private final DataSeeder dataSeeder;
     private final ShoppingCartBuilder cartBuilder;
+    private final UserRepository userRepository;
+	@Autowired
+	private LogEntryService logEntryService;
 
     @Autowired
-    public ItemController(BaseProductRepository productRepo, DataSeeder dataSeeder, ShoppingCartBuilder cartBuilder) {
+    public ItemController(BaseProductRepository productRepo, DataSeeder dataSeeder, ShoppingCartBuilder cartBuilder, UserRepository userRepository ) {
         this.productRepo = productRepo;
         this.dataSeeder = dataSeeder;
         this.cartBuilder = cartBuilder;
+        this.userRepository = userRepository;
     }
 
     @PostMapping("/seeder")
@@ -45,10 +55,13 @@ public class ItemController {
 
     @Transactional
     @PostMapping("/add-to-cart/{productId}")
-    public String addToCart(@PathVariable(value = "productId") Long productId) {
+    public String addToCart(@PathVariable(value = "productId") Long productId, HttpSession session) {
+    	UserModel user = userRepository.getReferenceById((Long) session.getAttribute("userid"));
         Optional<BaseProductModel> addedProductModel = this.productRepo.findById(productId);
         if (addedProductModel.isPresent()) {
+        	this.logEntryService.logEvent("Item "+addedProductModel.get().getName()+" was added to the cart", user);
             cartBuilder.addItem(addedProductModel.get());
+            
         }
         return "redirect:/portal";
     }
@@ -57,8 +70,10 @@ public class ItemController {
     public String AddItemFormRoute(@RequestParam(name = "productName", defaultValue = "") String productname,
             @RequestParam(name = "price") double price,
             @RequestParam(name = "description") String description, Model model,
-            @RequestParam(name="image", defaultValue = "") String image) {
+            @RequestParam(name="image", defaultValue = "") String image,
+            HttpSession session) {
     	UrlValidator validator = new UrlValidator();
+    	UserModel user = userRepository.getReferenceById((Long) session.getAttribute("userid"));
         if (productname.equals("")) {
             model.addAttribute("error", "You can't leave the product name empty!");
             return "/item-form";
@@ -73,6 +88,7 @@ public class ItemController {
             BaseProductModel newProductModel = factory.createProduct("base", productname, price, description,image);
             productRepo.save(newProductModel);
             cartBuilder.addItem(newProductModel); // Adding the new product to cart
+            this.logEntryService.logEvent("Product "+newProductModel.getName()+" was added to the portal", user);
             return "redirect:/portal";
         }
     }
