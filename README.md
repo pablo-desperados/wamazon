@@ -33,5 +33,5 @@ curl -X POST http://localhost:8080/seed
 ## Run tests
 On the project directory, run the following command:
 ```bash
-
+mvn test
 ```
