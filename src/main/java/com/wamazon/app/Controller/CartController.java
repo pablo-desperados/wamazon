@@ -19,9 +19,9 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class CartController {
 	private final UserRepository userRepository;
-	private final ShoppingCartBuilder shoppingCart;
+	public ShoppingCartBuilder shoppingCart;
 	@Autowired
-	private LogEntryService logEntryService;
+	public LogEntryService logEntryService;
 
 	
 	@Autowired

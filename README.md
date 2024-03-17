@@ -28,3 +28,10 @@ curl -X POST http://localhost:8080/seed
 ```
 
 5. On your browser, go to `http://localhost:8080/`
+
+
+## Run tests
+On the project directory, run the following command:
+```bash
+
+```

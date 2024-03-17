@@ -24,6 +24,7 @@ public class ShoppingCart {
 
     public void setItems(Map<UUID, BaseProductModel> items) {
         this.items = items;
+        this.itemCount= items.size();
     }
 
     public void setItemCount(int itemCount) {

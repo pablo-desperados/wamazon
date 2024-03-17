@@ -6,7 +6,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 
-//Defining a User Table in the database
 @Entity
 public class UserModel {
     @Id
@@ -16,8 +15,6 @@ public class UserModel {
     private String username;
     private String password;
 
-    // Getters and setters
-    // Constructors
 
     public UserModel() {}
 
@@ -26,7 +23,6 @@ public class UserModel {
         this.password = password;
     }
 
-    // Getters and setters
     public Long getId() {
         return id;
     }
