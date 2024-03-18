@@ -52,7 +52,7 @@ public class CartController {
 	}
 	
 	 public static double calculateTotalSum(Map<UUID ,BaseProductModel> cartItems) {
-	        // Dummy implementation, you should replace this with your actual logic
+
 	        double totalSum = 0.0;
 	        for (BaseProductModel item : cartItems.values()) {
 	            totalSum += item.getPrice();

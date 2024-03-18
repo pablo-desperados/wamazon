@@ -1,17 +1,14 @@
 package com.wamazon.app;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import com.wamazon.app.Model.BaseProductRepository;
 import com.wamazon.app.Model.BaseProductFactory;
 import com.wamazon.app.Model.BaseProductModel;
 
-@Component
+
 public class DataSeeder {
 
     private final BaseProductRepository baseProductRepository;
 
-    @Autowired
     public DataSeeder(BaseProductRepository baseProductRepository) {
         this.baseProductRepository = baseProductRepository;
     }
@@ -27,7 +24,6 @@ public class DataSeeder {
     	baseProductRepository.save(tv);
     	baseProductRepository.save(tablet);
     	baseProductRepository.save(pc);
-        
-        System.out.println("Data Seeded!");
+    	System.out.println("Data Seeded!");
     }
 }

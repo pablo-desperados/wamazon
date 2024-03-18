@@ -47,7 +47,6 @@ public class UserController {
         model.addAttribute("currUsername", user.getUsername());
         model.addAttribute("products", products);
 
-        // Get the shopping cart items and count
         ShoppingCartBuilder cartBuilder = new ShoppingCartBuilder();
         ShoppingCart cart = cartBuilder.build();
         Map<UUID, BaseProductModel> cartItems = cart.getItems();
@@ -81,10 +80,10 @@ public class UserController {
             HttpSession session = request.getSession();
             session.setAttribute("userid", user.getId());
             this.logEntryService.logEvent(user.getUsername()+" has logged in", user);
-            return "redirect:/portal"; // Replace with your success template
+            return "redirect:/portal"; 
         } catch (RuntimeException e) {
             model.addAttribute("error", "username/password are incorrect. Please try again!");
-            return "login"; // Replace with your login template
+            return "login"; 
         }
 
     }

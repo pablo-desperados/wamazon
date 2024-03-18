@@ -29,23 +29,23 @@ import org.springframework.ui.Model;
 @Controller
 public class ItemController {
     private final BaseProductRepository productRepo;
-    private final DataSeeder dataSeeder;
     private final ShoppingCartBuilder cartBuilder;
     private final UserRepository userRepository;
 	@Autowired
 	private LogEntryService logEntryService;
 
     @Autowired
-    public ItemController(BaseProductRepository productRepo, DataSeeder dataSeeder, ShoppingCartBuilder cartBuilder, UserRepository userRepository ) {
+    public ItemController(BaseProductRepository productRepo, ShoppingCartBuilder cartBuilder, UserRepository userRepository ) {
         this.productRepo = productRepo;
-        this.dataSeeder = dataSeeder;
         this.cartBuilder = cartBuilder;
         this.userRepository = userRepository;
     }
 
     @PostMapping("/seeder")
-    public void seedData() {
+    public String seedData() {
+    	DataSeeder dataSeeder = new DataSeeder(this.productRepo);
         dataSeeder.seedData();
+        return "seeder";
     }
 
     @GetMapping("/item-form")
@@ -87,7 +87,6 @@ public class ItemController {
             BaseProductFactory factory = new BaseProductFactory();
             BaseProductModel newProductModel = factory.createProduct("base", productname, price, description,image);
             productRepo.save(newProductModel);
-            cartBuilder.addItem(newProductModel); // Adding the new product to cart
             this.logEntryService.logEvent("Product "+newProductModel.getName()+" was added to the portal", user);
             return "redirect:/portal";
         }
